@@ -18,7 +18,7 @@
       // extract the embedded styling from ansi spans
       remark.on('ready', function() {
         $('code.terminal > span.ansi').replaceWith(function(i, x) {
-          return(x.replace(/&lt;(\/?span.*?)&gt;/g, '<$1>'))
+          return(x.replace(/&lt;(\/?(\w+).*?)&gt;/g, '<$1>'))
         });
       });
     </script>
@@ -236,7 +236,7 @@ To achieve the same effect, add the following to the header of the remark presen
       // extract the embedded styling from ansi spans
       remark.on('ready', function() {
         $('code.terminal > span.ansi').replaceWith(function(i, x) {
-          return(x.replace(/&lt;(\/?span.*?)&gt;/g, '<$1>'))
+          return(x.replace(/&lt;(\/?(\w+).*?)&gt;/g, '<$1>'))
         });
       });
     </script>
