@@ -12,7 +12,7 @@
     <script src="http://gnab.github.com/remark/downloads/remark-0.4.4.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
-    
+
     <script>
       remark.config({
         highlightStyle: "solarized_dark"
@@ -186,7 +186,12 @@ To capture directly to clipboard, use:
 
 # The Result
 
+The colour is translated via the highlight.js engine (using `terminal.language.js` - see .show-source[[source](#)]) and a small hack to substitute the style elements created by `aha` after the page has rendered.
+
+.small[
+
     .terminal
+    josh@brick ~/repos/aha $ git log -2
     <span style="color:olive;">commit 36b0a3af174e204c8d0a7a993ad467cd7be39bca</span>
     Author: Ziz &lt;zizsdl@googlemail.com&gt;
     Date:   Fri Aug 3 10:29:43 2012 +0200
@@ -199,16 +204,52 @@ To capture directly to clipboard, use:
     Date:   Fri Aug 3 10:28:59 2012 +0200
 
         Merge branch 'master' of github.com:theZiz/aha
-
----
+]
 
 # Bold and Reverse
 
 Bold and reverse work nicely, too:
 
     .terminal
-    josh@brick ~/repos/aha $ zsh -c "print -P '%Bbold%Sreverse%b%s'"
+    josh@brick ~ $ zsh -c "print -P '%Bbold%Sreverse%b%s'"
     <span style="font-weight:bold;">bold</span><span style="color:black;background-color:white;font-weight:bold;">reverse</span><span style="color:black;background-color:white;"></span><span style="color:white;background-color:black;"></span>
+
+---
+
+# The Colourful `aha` Help Message
+
+The output of `aha -h` give a good example of the results of this method:
+
+.small[
+
+    .terminal
+    josh@brick ~/repos/aha $ aha -h
+    <span style="color:red;font-weight:bold;">Ansi Html Adapter</span> Version 0.4.6.1
+    <span style="font-weight:bold;">aha</span> takes SGR-colored Input and prints W3C conform HTML-Code
+    use: <span style="font-weight:bold;">aha</span> &lt;<span style="text-decoration:underline;">options</span>&gt; [<span style="text-decoration:underline;">-f file</span>]
+         <span style="font-weight:bold;">aha</span> (<span style="text-decoration:underline;">--help</span>|<span style="text-decoration:underline;">-h</span>|<span style="text-decoration:underline;">-?</span>)
+    <span style="font-weight:bold;">aha</span> reads the Input from a file or stdin and writes HTML-Code to stdout
+    <span style="text-decoration:underline;">options</span>: --black,     -b: <span style="color:black;font-weight:bold;"></span><span style="color:black;background-color:white;font-weight:bold;">Black</span> Background and <span style="color:white;font-weight:bold;">White</span> &quot;standard color&quot;
+             --pink,      -p: <span style="color:fuchsia;font-weight:bold;">Pink</span> Background
+             --iso X,   -i X: Uses ISO 8859-X instead of utf-8. X must be 1..16
+             --title X, -t X: Gives the html output the title &quot;X&quot; instead of &quot;stdin&quot;
+                              or the filename
+             --line-fix,  -l: Uses a fix for inputs using control sequences to
+                              change the cursor position like htop. It's a hot fix,
+                              it may not work with any program like htop. Example:
+                              <span style="font-weight:bold;">echo</span> q | <span style="font-weight:bold;">htop</span> | <span style="font-weight:bold;">aha</span> -l &gt; htop.htm
+             --word-wrap, -w: Wrap long lines in the html file. This works with
+                              CSS3 supporting browsers as well as many older ones.
+             --no-header, -n: Don't include header into generated HTML,
+                              useful for inclusion in full HTML files.
+    Example: <span style="font-weight:bold;">aha</span> --help | <span style="font-weight:bold;">aha</span> --black &gt; aha-help.htm
+             Writes this help text to the file aha-help.htm
+
+    Copyleft <span style="color:lime;font-weight:bold;">Alexander Matthes</span> aka <span style="text-decoration:underline;">Ziz</span> 2012
+             <span style="color:aqua;text-decoration:blink;">zizsdl@googlemail.com</span>
+             <span style="color:aqua;text-decoration:blink;">http://ziz.delphigl.com/tool_aha.php</span>
+    This application is subject to the <span style="color:#3333FF;font-weight:bold;">MPL</span> or <span style="color:#3333FF;font-weight:bold;">LGPL</span>.
+]
 
   </textarea><div id="slideshow" /><div id="overlay" /></body>
 </html>
