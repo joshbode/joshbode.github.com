@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<!--
+  vim:filetype=markdown
+-->
+
+<html>
+  <head>
+    <title>ANSI Colour</title>
+    <meta charset="utf-8" />
+
+    <script src="http://gnab.github.com/remark/downloads/remark-0.4.4.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+    
+    <script>
+      remark.config({
+        highlightStyle: "solarized_dark"
+      });
+
+      // extract the embedded styling from ansi spans
+      remark.on('ready', function() {
+        $('code.terminal > span.ansi').each(function(i, x) {
+          text = $(x).text().replace(/&lt;span/g, '<span').replace(/span&gt;/g, 'span>');
+          $(x).replaceWith(text);
+        });
+      });
+
+      // show source box - only necessary for example
+      $(window).load(function() {
+        $('#source').position({
+          of: $('#slideshow')
+        });
+        $('.show-source > a, #overlay').click(function(e) {
+          e.preventDefault();
+          $('#overlay, #source').toggle(300);
+        });
+      });
+
+      var hljs = remark.highlighter.engine();
+    </script>
+    <script src="terminal.language.js"></script>
+
+    <style>
+      @import url(http://fonts.googleapis.com/css?family=Droid+Serif);
+      @import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+      .small * {
+        font-size: small !important;
+      }
+      code {
+        border-radius: 5px;
+      }
+      .inverse {
+        background: #272822;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1, .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+      .footnote {
+        position: absolute;
+        font-size: small;
+        bottom: 3em;
+        right: 3em;
+      }
+      #source {
+        position: absolute;
+        display: none;
+        font-family: monospace;
+        font-size: medium;
+        background: #333333;
+        color: white;
+        padding: 10px;
+        text-align: left;
+        width: 70%;
+        height: 70%;
+        z-index: 1000;
+      }
+      #overlay {
+        position: absolute;
+        display: none;
+        background: black;
+        width: 100%;
+        height: 100%;
+        opacity: 0.2;
+        z-index: 999;
+      }
+    </style>
+  </head>
+  <body><textarea id="source">
+
+class: center, middle, inverse
+
+# Coloured Terminal Listings
+# in remark
+
+.footnote[
+  created with [remark](http://github.com/gnab/remark)
+]
+
+---
+
+## Challenge
+How do we capture ANSI coloured console output and display it in remark?
+
+
+.small[
+
+    .terminal
+    josh@brick ~ $ ls -l --color
+    total 20363
+    drwxrwxr-x+ 96 root admin     3264 Feb 14 13:05 <span style="color:#3333FF;font-weight:bold;">Applications</span>
+    drwxrwxr-x  18 root admin      612 Aug 14  2011 <span style="color:#3333FF;font-weight:bold;">Developer</span>
+    drwxrwxr-t+ 63 root admin     2142 Apr 28  2012 <span style="color:white;background-color:#3333FF;">Library</span>
+    drwxr-xr-x   2 root wheel       68 Jul 10  2009 <span style="color:#3333FF;font-weight:bold;">Network</span>
+    drwxr-xr-x   4 root wheel      136 Jul 30  2011 <span style="color:#3333FF;font-weight:bold;">System</span>
+    drwxr-xr-x   6 root admin      204 Jun 27  2012 <span style="color:#3333FF;font-weight:bold;">Users</span>
+    drwxrwxrwt+  3 root admin      102 Feb 14 18:12 <span style="color:black;background-color:lime;">Volumes</span>
+    drwxr-xr-x  39 root wheel     1326 Oct 23 19:41 <span style="color:#3333FF;font-weight:bold;">bin</span>
+    drwxrwxr-t   2 root admin       68 Jul 10  2009 <span style="color:white;background-color:#3333FF;">cores</span>
+    dr-xr-xr-x   3 root wheel     4350 Jan 18 20:54 <span style="color:#3333FF;font-weight:bold;">dev</span>
+    lrwxr-xr-x   1 root wheel       11 Sep 24  2009 <span style="color:aqua;font-weight:bold;">etc</span> -&gt; private/etc
+    dr-xr-xr-x   2 root wheel        1 Jan 18 20:55 <span style="color:#3333FF;font-weight:bold;">home</span>
+    -rw-r--r--   1 root wheel 20828964 Jun  8  2011 mach_kernel
+    dr-xr-xr-x   2 root wheel        1 Jan 18 20:55 <span style="color:#3333FF;font-weight:bold;">net</span>
+    drwxr-xr-x   4 root wheel      136 Jan 10 22:26 <span style="color:#3333FF;font-weight:bold;">opt</span>
+    drwxr-xr-x   6 root wheel      204 Sep 24  2009 <span style="color:#3333FF;font-weight:bold;">private</span>
+    drwxr-xr-x  70 root wheel     2380 Oct 23 19:41 <span style="color:#3333FF;font-weight:bold;">sbin</span>
+    lrwxr-xr-x   1 root wheel       11 Sep 24  2009 <span style="color:aqua;font-weight:bold;">tmp</span> -&gt; private/tmp
+    drwxr-xr-x  15 root wheel      510 Apr 28  2012 <span style="color:#3333FF;font-weight:bold;">usr</span>
+    lrwxr-xr-x   1 root wheel       11 Sep 24  2009 <span style="color:aqua;font-weight:bold;">var</span> -&gt; private/var
+]
+
+
+---
+
+# Capturing Coloured Command Output (e.g. `git`)
+
+1. Build and install [aha](https://github.com/theZiz/aha):
+.small[
+```
+.terminal
+josh@brick ~/repos $ git clone https://github.com/theZiz/aha; cd aha
+...
+josh@brick ~/repos/aha $ make && cp aha /usr/local/bin
+```
+]
+
+2. Capture output with `aha` (for dark background highlight.js styles such as solarized_dark, use `aha -b`):
+.small[
+```
+.terminal
+josh@brick ~/repos/aha $ git log -2 --color | aha -b -n | pbcopy
+```
+]
+To capture directly to clipboard, use:
+  - `pbcopy` for OS X
+  - `xsel --clipboard` for Linux
+  - `getclip` for Cygwin
+
+3. Paste into remark document (see .show-source[[source](#)] for more details):
+.small[
+```
+.no-highlight
+    .terminal
+    josh@brick ~/repos/aha $ git log -2
+    <span style="color:olive;">commit 36b0a3af174e204c8d0a7a993ad467cd7be39bca</span>
+    Author: Ziz &lt;zizsdl@googlemail.com&gt;
+    Date:   Fri Aug 3 10:29:43 2012 +0200
+
+        Small version changes, make clean, merging, etc.
+    ...
+```
+]
+
+---
+
+# The Result
+
+    .terminal
+    <span style="color:olive;">commit 36b0a3af174e204c8d0a7a993ad467cd7be39bca</span>
+    Author: Ziz &lt;zizsdl@googlemail.com&gt;
+    Date:   Fri Aug 3 10:29:43 2012 +0200
+
+        Small version changes, make clean, merging, etc.
+
+    <span style="color:olive;">commit 86abaa46c786c1e5dca33ad5907b8067d0e47a20</span>
+    Merge: ed4f29b d0dc6c1
+    Author: Ziz &lt;zizsdl@googlemail.com&gt;
+    Date:   Fri Aug 3 10:28:59 2012 +0200
+
+        Merge branch 'master' of github.com:theZiz/aha
+
+---
+
+# Bold and Reverse
+
+Bold and reverse work nicely, too:
+
+    .terminal
+    josh@brick ~/repos/aha $ zsh -c "print -P '%Bbold%Sreverse%b%s'"
+    <span style="font-weight:bold;">bold</span><span style="color:black;background-color:white;font-weight:bold;">reverse</span><span style="color:black;background-color:white;"></span><span style="color:white;background-color:black;"></span>
+
+  </textarea><div id="slideshow" /><div id="overlay" /></body>
+</html>
