@@ -21,7 +21,8 @@
       // extract the embedded styling from ansi spans
       remark.on('ready', function() {
         $('code.terminal > span.ansi').each(function(i, x) {
-          text = $(x).text().replace(/&lt;span/g, '<span').replace(/span&gt;/g, 'span>');
+          text = $(x).text().replace(/&lt;span/g, '<span')
+                            .replace(/span&gt;/g, 'span>');
           $(x).replaceWith(text);
         });
       });
@@ -35,6 +36,8 @@
           e.preventDefault();
           $('#overlay, #source').toggle(300);
         });
+        // open links in new tab/window
+        $(document.links).attr('target', '_blank');
       });
 
       var hljs = remark.highlighter.engine();
@@ -96,7 +99,7 @@
       }
     </style>
   </head>
-  <body><textarea id="source">
+  <body><textarea id="source" readonly>
 
 class: center, middle, inverse
 
@@ -186,7 +189,7 @@ To capture directly to clipboard, use:
 
 # The Result
 
-The colour is translated via the highlight.js engine (using `terminal.language.js` - see .show-source[[source](#)]) and a small hack to substitute the style elements created by `aha` after the page has rendered.
+The colour is translated via the highlight.js engine (using `terminal.language.js` - see [source](terminal.language.js)) and a small hack to substitute the style elements created by `aha` after the page has rendered.
 
 .small[
 
