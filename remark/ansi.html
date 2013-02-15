@@ -18,31 +18,35 @@
         highlightStyle: "solarized_dark"
       });
 
+      var hljs = remark.highlighter.engine();
+
       // extract the embedded styling from ansi spans
       remark.on('ready', function() {
-        $('code.terminal > span.ansi').each(function(i, x) {
-          text = $(x).text().replace(/&lt;span/g, '<span')
-                            .replace(/span&gt;/g, 'span>');
-          $(x).replaceWith(text);
+        $('code.terminal > span.ansi').replaceWith(function(i, x) {
+          return(x.replace(/&lt;(\/?span.*?)&gt;/g, '<$1>'))
         });
       });
+    </script>
+    <script src="terminal.language.js"></script>
 
-      // show source box - only necessary for example
+    <script>
+      // this code is necessary only for showing source in example
       $(window).load(function() {
+        // position source box in center
         $('#source').position({
           of: $('#slideshow')
         });
+
+        // show source box
         $('.show-source > a, #overlay').click(function(e) {
           e.preventDefault();
           $('#overlay, #source').toggle(300);
         });
+
         // open links in new tab/window
         $(document.links).attr('target', '_blank');
       });
-
-      var hljs = remark.highlighter.engine();
     </script>
-    <script src="terminal.language.js"></script>
 
     <style>
       @import url(http://fonts.googleapis.com/css?family=Droid+Serif);
@@ -75,6 +79,7 @@
         bottom: 3em;
         right: 3em;
       }
+      /* styling only necessary for displaying source */
       #source {
         position: absolute;
         display: none;
@@ -84,7 +89,7 @@
         color: white;
         padding: 10px;
         text-align: left;
-        width: 70%;
+        width: 65%;
         height: 70%;
         z-index: 1000;
       }
@@ -189,7 +194,7 @@ To capture directly to clipboard, use:
 
 # The Result
 
-The colour is translated via the highlight.js engine (using `terminal.language.js` - see [source](terminal.language.js)) and a small hack to substitute the style elements created by `aha` after the page has rendered.
+Putting it all together, we have the desired result:
 
 .small[
 
@@ -211,11 +216,44 @@ The colour is translated via the highlight.js engine (using `terminal.language.j
 
 # Bold and Reverse
 
-Bold and reverse work nicely, too:
+Bold and reverse work nicely, too (be careful of the background colour of your highlight.js theme):
 
     .terminal
     josh@brick ~ $ zsh -c "print -P '%Bbold%Sreverse%b%s'"
     <span style="font-weight:bold;">bold</span><span style="color:black;background-color:white;font-weight:bold;">reverse</span><span style="color:black;background-color:white;"></span><span style="color:white;background-color:black;"></span>
+
+---
+
+# The Code
+
+The colour tags are translated via the highlight.js engine (using the [language definition](terminal.language.js)) and a small jQuery script to substitute the style elements created by `aha` after the page has rendered.
+
+To achieve the same effect, add the following to the header of the remark presentation:
+
+.small[
+
+    .html
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+    </script>
+    <script>
+      var hljs = remark.highlighter.engine();
+
+      // extract the embedded styling from ansi spans
+      remark.on('ready', function() {
+        $('code.terminal > span.ansi').replaceWith(function(i, x) {
+          return(x.replace(/&lt;(\/?span.*?)&gt;/g, '<$1>'))
+        });
+      });
+    </script>
+    <script src="terminal.language.js"></script>
+]
+
+The terminal language definition assumes a prompt of the form:
+
+    .terminal
+    user@host /path/x $ 
+
+If you would like a prompt style it can be altered in the [language definition](terminal.language.js).
 
 ---
 
@@ -253,6 +291,5 @@ The output of `aha -h` give a good example of the results of this method:
              <span style="color:aqua;text-decoration:blink;">http://ziz.delphigl.com/tool_aha.php</span>
     This application is subject to the <span style="color:#3333FF;font-weight:bold;">MPL</span> or <span style="color:#3333FF;font-weight:bold;">LGPL</span>.
 ]
-
   </textarea><div id="slideshow" /><div id="overlay" /></body>
 </html>

@@ -16,9 +16,7 @@ hljs.LANGUAGES.terminal = {
     {
       className: 'ansi',
       begin: '<span style\\="([^"]+)">',
-      end: '<\\/span>',
-      returnBegin: false,
-      returnEnd: false
+      end: '<\\/span>'
     }
   ]
 };
