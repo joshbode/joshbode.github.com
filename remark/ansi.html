@@ -38,8 +38,8 @@
           $('#overlay, #source').toggle(300);
         });
 
-        // open links in new tab/window
-        $(document.links).attr('target', '_blank');
+        // open source links in new tab/window
+        $('.show-source > a').attr('target', '_blank');
       });
     </script>
 
@@ -47,7 +47,10 @@
       @import url(http://fonts.googleapis.com/css?family=Droid+Serif);
       @import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
 
-      body { font-family: 'Droid Serif'; }
+      body {
+        font-family: 'Droid Serif';
+        font-size: medium;
+      }
       h1, h2, h3 {
         font-family: 'Yanone Kaffeesatz';
         font-weight: 400;
@@ -112,7 +115,7 @@ class: center, middle, inverse
 
 ---
 
-## Challenge
+# Challenge
 How do we capture ANSI coloured console output and display it in remark?
 
 
@@ -143,17 +146,54 @@ How do we capture ANSI coloured console output and display it in remark?
     lrwxr-xr-x   1 root wheel       11 Sep 24  2009 <span style="color:aqua;font-weight:bold;">var</span> -&gt; private/var
 ]
 
+# Solution
+
+Use the `aha` Ansi HTML Adaptor to capture output and paste the result as code to be interpreted by the highlight.js engine used in remark.
+
+---
+name: code
+
+# The Code
+
+The results produced by `aha` are translated via the highlight.js engine (using the [language definition](terminal.language.js)) and a small jQuery script to substitute the embedded style elements after the page has rendered (triggered by `remark.on` via the 'ready' event).
+
+To achieve this, add the following to the header of the remark presentation:
+
+.small[
+
+    .html
+    ...
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+      var hljs = remark.highlighter.engine();
+
+      // extract the embedded styling from ansi spans
+      remark.on('ready', function() {
+        $('code.terminal > span.ansi').replaceWith(function(i, x) {
+          return(x.replace(/&lt;(\/?(\w+).*?)&gt;/g, '<$1>'))
+        });
+      });
+    </script>
+    <script src="terminal.language.js"></script>
+    ...
+]
+
+The terminal language definition assumes a prompt of the form:
+
+    .terminal
+    user@host /path/x $ 
+
+If you would like a different prompt style, get your regex on and alter it in the [language definition](terminal.language.js).
 
 ---
 
-# Capturing Coloured Command Output (e.g. `git`)
+# Worked Example to Capture Coloured Command Output (e.g. `git`)
 
 1. Build and install [aha](https://github.com/theZiz/aha):
 .small[
 ```
 .terminal
 josh@brick ~/repos $ git clone https://github.com/theZiz/aha; cd aha
-...
 josh@brick ~/repos/aha $ make && cp aha /usr/local/bin
 ```
 ]
@@ -170,7 +210,7 @@ To capture directly to clipboard, use:
   - `xsel --clipboard` for Linux
   - `getclip` for Cygwin
 
-3. Paste into remark document (see .show-source[[source](#)] for more details):
+3. Paste (code must be indented - 4 spaces) into remark document with the [header code](#code) (see .show-source[[source](#)] for more details):
 .small[
 ```
 .no-highlight
@@ -216,39 +256,6 @@ Bold and reverse work nicely, too (be careful of the background colour of your h
     .terminal
     josh@brick ~ $ zsh -c "print -P '%Bbold%Sreverse%b%s'"
     <span style="font-weight:bold;">bold</span><span style="color:black;background-color:white;font-weight:bold;">reverse</span><span style="color:black;background-color:white;"></span><span style="color:white;background-color:black;"></span>
-
----
-
-# The Code
-
-The colour tags are translated via the highlight.js engine (using the [language definition](terminal.language.js)) and a small jQuery script to substitute the style elements created by `aha` after the page has rendered.
-
-To achieve the same effect, add the following to the header of the remark presentation:
-
-.small[
-
-    .html
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
-    </script>
-    <script>
-      var hljs = remark.highlighter.engine();
-
-      // extract the embedded styling from ansi spans
-      remark.on('ready', function() {
-        $('code.terminal > span.ansi').replaceWith(function(i, x) {
-          return(x.replace(/&lt;(\/?(\w+).*?)&gt;/g, '<$1>'))
-        });
-      });
-    </script>
-    <script src="terminal.language.js"></script>
-]
-
-The terminal language definition assumes a prompt of the form:
-
-    .terminal
-    user@host /path/x $ 
-
-If you would like a prompt style it can be altered in the [language definition](terminal.language.js).
 
 ---
 
