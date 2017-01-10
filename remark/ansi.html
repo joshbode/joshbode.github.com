@@ -4,8 +4,8 @@
     <title>ANSI Colour</title>
     <meta charset="utf-8" />
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
     <script>
       // this code is necessary only for showing source in example
@@ -27,8 +27,8 @@
     </script>
 
     <style>
-      @import url(http://fonts.googleapis.com/css?family=Droid+Serif);
-      @import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif);
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
 
       body {
         font-family: 'Droid Serif';
@@ -87,8 +87,6 @@
   </head>
   <body>
     <textarea id="source" readonly>
-
-
 class: center, middle, inverse
 
 # Coloured Terminal Listings
@@ -146,10 +144,11 @@ substitute the embedded style elements after the page has rendered.
 
 To achieve this, add the following to the end of the remark presentation:
 
+.small[
 ```html
     ...
-    <script src="http://gnab.github.io/remark/downloads/remark-latest.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script type="text/javascript">
       var hljs = remark.highlighter.engine;
     </script>
@@ -159,12 +158,13 @@ To achieve this, add the following to the end of the remark presentation:
         highlightStyle: 'monokai'
       });
       // extract the embedded styling from ansi spans
-      $('code.terminal > div.remark-code-line > span.hljs-ansi').replaceWith(function(i, x) {
+      $('code.terminal span.hljs-ansi').replaceWith(function(i, x) {
         return x.replace(/&lt;(\/?(\w+).*?)&gt;/g, '<$1>')
       });
     </script>
     ...
 ```
+]
 
 The terminal language definition assumes a prompt of the form:
 
@@ -199,7 +199,9 @@ To capture directly to clipboard, use:
   - `xsel --clipboard` for Linux
   - `getclip` for Cygwin
 
-3. Paste into remark document with the [header code](#code) (see .show-source[[source](#)] for more details):
+---
+
+Paste into remark document with the [header code](#code) (see .show-source[[source](#)] for more details):
 .small[
 ```no-highlight
 ```terminal
@@ -213,6 +215,7 @@ Date:   Fri Aug 3 10:29:43 2012 +0200
 ```
 ```
 ]
+
 Note: code must be in a
 [GFM](http://github.github.com/github-flavored-markdown/) fenced block with
 "terminal" as the syntax-type as above.
@@ -288,10 +291,8 @@ This application is subject to the <span style="color:#3333FF;font-weight:bold;"
 ```
 ]
     </textarea>
-    <div id="slideshow"></div>
-    <div id="overlay"></div>
 
-    <script src="http://gnab.github.io/remark/downloads/remark-latest.min.js"></script>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js"></script>
     <script type="text/javascript">
       var hljs = remark.highlighter.engine;
     </script>
@@ -301,7 +302,7 @@ This application is subject to the <span style="color:#3333FF;font-weight:bold;"
         highlightStyle: 'monokai'
       });
       // extract the embedded styling from ansi spans
-      $('code.terminal > div.remark-code-line > span.hljs-ansi').replaceWith(function(i, x) {
+      $('code.terminal span.hljs-ansi').replaceWith(function(i, x) {
         return x.replace(/&lt;(\/?(\w+).*?)&gt;/g, '<$1>')
       });
     </script>
