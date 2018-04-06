@@ -4,28 +4,6 @@
     <title>ANSI Colour</title>
     <meta charset="utf-8" />
 
-    <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-
-    <script>
-      // this code is necessary only for showing source in example
-      $(window).load(function() {
-        // position source box in center
-        $('#source').position({
-          of: $('#slideshow')
-        });
-
-        // show source box
-        $('.show-source > a, #overlay').click(function(e) {
-          e.preventDefault();
-          $('#overlay, #source').toggle(300);
-        });
-
-        // open source links in new tab/window
-        $('.show-source > a').attr('target', '_blank');
-      });
-    </script>
-
     <style>
       @import url(//fonts.googleapis.com/css?family=Droid+Serif);
       @import url(//fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
@@ -331,6 +309,28 @@ This application is subject to the <span style="color:#3333FF;font-weight:bold;"
       });
     </script>
 
+
+    <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+      // this code is necessary only for showing source in example
+      $(window).load(function() {
+        // position source box in center
+        $('#source').position({
+          of: $('#slideshow')
+        });
+
+        // show source box
+        $('.show-source > a, #overlay').click(function(e) {
+          e.preventDefault();
+          $('#overlay, #source').toggle(300);
+        });
+
+        // open source links in new tab/window
+        $('.show-source > a').attr('target', '_blank');
+      });
+    </script>
+    
   </body>
 </html>
 
