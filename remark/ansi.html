@@ -219,7 +219,9 @@ same directory as your remark presentation.
 
 ---
 
-# Worked Example to Capture Coloured Command Output (e.g. `git`)
+# Worked Example
+
+This example captures coloured command output from `git`
 
 1. Build and install [aha](https://github.com/theZiz/aha):
 .small[
@@ -240,6 +242,18 @@ To capture directly to clipboard, use:
   - `pbcopy` for OS X
   - `xsel --clipboard` for Linux
   - `getclip` for Cygwin
+
+.small[
+*Tip:* for git commands which don't support `--color`, e.g. `status` set `color.*` 
+in [git config](https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#_colors_in_git).
+
+Using the `-c` [option](https://git-scm.com/docs/git#git--cltnamegtltvaluegt) you can do this without affecting 
+your global or local config. For example:
+```terminal
+# use color.status for git status, color.ui for anything else
+josh@brick ~/repos/aha $ git -c color.status=always status | aha -b -n | pbcopy
+```
+]
 
 ---
 
