@@ -136,13 +136,31 @@ to be interpreted by the highlight.js engine used in remark.
 ---
 name: code
 
-# The Code
+# How it Works
 
 The results produced by `aha` are translated via the highlight.js engine (using
-the [language definition](terminal.language.js)) and a small jQuery script to
+the [language definition](terminal.language.js)) and a small script to
 substitute the embedded style elements after the page has rendered.
 
-To achieve this, add the following to the end of the remark presentation:
+### Customization
+The terminal language definition assumes a prompt of the form:
+
+```terminal
+user@host /path/x $ 
+```
+
+If you would like a different prompt style, get your regex on and alter it in
+the [language definition](terminal.language.js).
+
+---
+
+# How to Set it Up With JQuery
+
+*This is the JQuery option, the next slide shows installation without JQuery*
+
+1. Download the [language definition](terminal.language.js) and save it in the
+same directory as your remark presentation.
+1. Add the following to the end of the remark presentation:
 
 .small[
 ```html
@@ -168,16 +186,36 @@ To achieve this, add the following to the end of the remark presentation:
 
 ---
 
-# Customization
+# How to Set it Up Without JQuery
 
-The terminal language definition assumes a prompt of the form:
+*This is the vanilla JS option, the previous slide shows installation with JQuery*
 
-```terminal
-user@host /path/x $ 
+1. Download the [language definition](terminal.language.js) and save it in the
+same directory as your remark presentation.
+1. Add the following to the end of the remark presentation:
+
+.small[
+```html
+    ...
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js"></script>
+    <script type="text/javascript">
+      var hljs = remark.highlighter.engine;
+    </script>
+    <script src="terminal.language.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      var slideshow = remark.create({
+        highlightStyle: 'monokai'
+      });
+      // extract the embedded styling from ansi spans
+      var highlighted = document.querySelectorAll("code.terminal span.hljs-ansi");
+      Array.prototype.forEach.call(highlighted, function(next) {
+        next.insertAdjacentHTML("beforebegin", next.textContent);
+        next.parentNode.removeChild(next);
+      });
+    </script>
+    ...
 ```
-
-If you would like a different prompt style, get your regex on and alter it in
-the [language definition](terminal.language.js).
+]
 
 ---
 
